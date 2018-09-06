@@ -3,8 +3,7 @@ title: "Visualizing Upper Secondary Education of OECD Countries"
 author: "AppleCrazy"
 date: "9/5/18"
 output:
-  html_document:
-    df_print: paged
+  html_document
 ---
 
 # Introduction
