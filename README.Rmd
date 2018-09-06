@@ -1,0 +1,12 @@
+---
+title: "README"
+author: "AppleCrazy"
+date: "9/5/2018"
+output: html_document
+---
+
+# applecrazy/statistics
+
+This is the code, visualizations, and explorations for an Intro to Statistics course I am taking.
+
+Feel free to look through any of the materials, but keep in mind that none of the code is production ready.
