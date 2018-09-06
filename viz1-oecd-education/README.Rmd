@@ -1,0 +1,8 @@
+---
+title: 'Visualization 1: OECD Education'
+author: "AppleCrazy"
+date: "9/5/2018"
+output: html_document
+---
+
+[Open the notebook](viz1.Rmd)
