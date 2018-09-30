@@ -1,0 +1,84 @@
+---
+title: 'Data Collection Project: Analyzing Productivity'
+output:
+  html_document:
+    df_print: paged
+  html_notebook: default
+  pdf_document: default
+---
+
+# Introduction
+
+Back in March 2018, I decided to use Emacs' `org-mode` to keep track of my tasks and my working habits every day. At the beginning of each task, I was to "clock in," work, and then, "clock out" whenever I finished that task. This data is a gold mine, and in this project, I will take this data (extracted from `org-mode` manually) and perform an observational study on my productivity.
+
+# Research Question
+
+On what days of the week am I most productive?
+
+# Data Collection Method
+
+The data ($n = 83$) was collected using the `org-mode` program built into the text-based text editor Emacs. This was most appropriate because this data would be collected over time, and an experiment cannot be conducted because there is no way to assign which days to "be" productive or "not" productive.
+
+# Materials
+
+This research project requires only a computer with Emacs installed.
+
+# Randomization
+
+No randomization is needed for this observational study.
+
+# Procedure
+1. Over a period of time, collect data on time spent working using Emacs' `org-mode` program.
+
+2. Aggregate this data each day to produce the `workdata.csv` file:
+
+```{r}
+library(readr)
+workdata <- read_csv("workdata.csv")
+head(workdata)
+```
+
+# Explanatory and Response Variables
+
+The **explanatory variable** in this case is the day of the week (the `DayWeek` column above), which is a categorical variable.
+
+The **response variable** is the number of hours worked that day.
+
+# Analysis
+
+Based on the `workdata.csv` file, it is now time to analyze the data. This analysis uses R, a professional statistical analysis package. While it is overkill for this small project, it's helpful to learn for future use.
+
+First, we must mean, SD, and median the hours worked per day based on the day of the week:
+
+```{r message=FALSE, warning=FALSE}
+temp <- aggregate(x = workdata, by = list(workdata$DayWeek), FUN = mean, drop = TRUE)
+results <- temp[, c("Group.1", "Hours")]
+colnames(results)[1] <- "DayWeek"
+colnames(results)[2] <- "HoursMean"
+
+temp <- aggregate(x = workdata, by = list(workdata$DayWeek), FUN = sd, drop = TRUE)
+results$HoursSD <- temp[, c("Hours")]
+
+temp <- aggregate(x = workdata, by = list(workdata$DayWeek), FUN = median, drop = TRUE)
+results$HoursMedian <- temp[, c("Hours")]
+
+head(results, n=7)
+```
+
+Now, we can take a look at the results. 
+
+Based on the results, we can see that Mondays are a bit of a mixed bag in terms of work, with around 4.3 hours of work completed on that day (the third most productive day) but with a standard deviation of *4.2 hours*! That means I either work **extremely hard** on Mondays or **get no work done on that day** (but, as the median suggests, I usually *do* work).
+
+Additionally, Fridays are the day where I get barely any work done, since it's the beginning of the weekend and I take some much-needed rest. On the other hand, Sundays are my "workhorse days," where I get an insane amount of work done (most of the time).
+
+Let's visualize these results in bar charts:
+
+```{r display=TRUE}
+barplot(results$HoursMean, names.arg = results$DayWeek, xlab = 'Day of Week', ylab = 'Hours Worked', main = 'Average Productivity by Day',  col = rep('lightblue', 7), cex.names = 0.91)
+barplot(results$HoursSD, names.arg = results$DayWeek, xlab = 'Day of Week', ylab = 'Deviation from Mean (hours)', main = 'Variation in Productivity by Day',  col = rep('lightgreen', 7), cex.names = 0.91)
+barplot(results$HoursMedian, names.arg = results$DayWeek, xlab = 'Day of Week', ylab = 'Hours Worked', main = 'Median Productivity by Day',  col = rep('purple', 7), cex.names = 0.91)
+```
+
+# Conclusion
+
+Based on the results of my study, I can conclude that my most productive day is Sundays, while I am least productive on Fridays. However, one must take into account the variation from the average productivity, thus making my most productive day of the week Thursdays, due to its low $\sigma$ and relatively high value when $\mu - \sigma$.

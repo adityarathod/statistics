@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AppleCrazy: Statistics</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
-    <link rel="stylesheet" type="text/css" href="/index.css">
-    <link href="https://fonts.googleapis.com/css?family=Overpass:400,700,800" rel="stylesheet">
-  </head>
-  <body>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AppleCrazy: Statistics</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+  <link rel="stylesheet" type="text/css" href="https://applecrazy.github.io/index.css">
+  <link href="https://fonts.googleapis.com/css?family=Overpass:400,700,800" rel="stylesheet">
+</head>
+
+<body>
   <section class="hero is-medium" style="background: url('https://source.unsplash.com/qwtCeJ5cLYs/1920x1080'); background-size: cover;">
     <div class="hero-head">
       <div class="container-fluid a-is-navbar">
-        <div class="a-navbar-branding">
+        <div class="a-navbar-branding" style="cursor: pointer;" onclick="document.location = '/'">
           <img src="logov2-white.svg" height="37">
         </div>
       </div>
@@ -24,7 +26,46 @@
     </div>
   </section>
   <section class="section has-background-light">
-    <p>hi</p>
+    <div class="container">
+      <h1 class="title">Welcome!</h1>
+      <p>This is a place for me to store all of my statistics visualizations. You're probably not looking for this
+        page, but if you're here, I recommend you check out my current visualizations below.</p>
+    </div>
   </section>
-  </body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title has-text-centered">Current Visualizations</h1>
+      <div class="columns">
+        <div class="column">
+          <div class="card">
+            <div class="card-content">
+              <p class="title">
+                Presentation: Analyzing Productivity
+              </p>
+              <p class="subtitle">
+                Learn how to analyze productivity using Emacs, org-mode, and R.&nbsp;
+                <span class="tag is-link">PROJECT</span>
+              </p>
+            </div>
+            <footer class="card-footer">
+              <p class="card-footer-item">
+                <span>
+                  <a href="/project-1">Open Presentation</a>
+                </span>
+              </p>
+              <p class="card-footer-item">
+                <span>
+                  <a href="/project-1/writeup">Open Notebook</a>
+                </span>
+              </p>
+            </footer>
+          </div>
+        </div>
+        <div class="column"></div>
+        <div class="column"></div>
+      </div>
+    </div>
+  </section>
+</body>
+
 </html>
