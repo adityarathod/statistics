@@ -1,0 +1,143 @@
+---
+title: "Data Collection:<br> Analyzing Productivity"
+subtitle: "Aditya Rathod"
+author: "Statistics Period 6"
+date: "October 1, 2018"
+output:
+  ioslides_presentation:
+    widescreen: true
+    transition: faster
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Background
+
+## Introduction
+
+In March 2018:
+
+- Decided to use Emacs' `org-mode`
+  - Keeps track of my tasks
+  - Keeps track of my working habits
+- At the beginning of each task, I "clock in," work and then "clock out" 
+
+My data is a gold mine for me to analyze my productivity
+
+- In this project, I will take this data and perform an observational study on my productivity
+
+## Research Question
+
+On what days of the week am I most productive?
+
+## Data Collection Method
+- Data collected using `org-mode`
+- An observational study was appropriate: data collected over time
+  - Experiment not possible
+    - No way to assign which days to "be" productive or "not" productive.
+- $n = 83$
+
+## Materials
+- Computer with Emacs installed
+- Time
+
+## Procedure {.build}
+
+1. Over a period of time, collect data on time spent working using Emacs' `org-mode` program.
+
+2. Aggregate this data each day to produce the `workdata.csv` file:
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(readr)
+workdata <- read_csv("workdata.csv")
+head(workdata)
+```
+
+| Date   | DayWeek   | HoursWorked | Hour | FracHour      | Hours       | 
+|--------|-----------|-------------|------|---------------|-------------| 
+| 30-Mar | Friday    | 4:33        | 4    | 0.55          | 4.55        | 
+| 31-Mar | Saturday  | 4:09        | 4    | 0.15          | 4.15        | 
+| 1-Apr  | Sunday    | 5:01        | 5    | 0.01666666667 | 5.016666667 | 
+
+
+## Explanatory and Response Variables
+- The **explanatory variable** in this case is the day of the week (the `DayWeek` column above), which is a *categorical variable*.
+- The **response variable** is the number of hours worked that day.
+
+# Analysis
+
+## Analysis: Overview
+- Time to analyze the data
+- This analysis uses R, a professional statistical analysis package
+  - While it is overkill for this small project, it's helpful to learn for future use
+  
+## Analysis: Part 1 {.smaller .build}
+- First, we must mean, SD, and median the hours worked per day based on the day of the week:
+
+```{r message=FALSE, warning=FALSE}
+library(knitr)
+temp <- aggregate(x = workdata, by = list(workdata$DayWeek), FUN = mean, drop = TRUE)
+results <- temp[, c("Group.1", "Hours")]
+colnames(results)[1] <- "DayWeek"
+colnames(results)[2] <- "HoursMean"
+
+temp <- aggregate(x = workdata, by = list(workdata$DayWeek), FUN = sd, drop = TRUE)
+results$HoursSD <- temp[, c("Hours")]
+
+temp <- aggregate(x = workdata, by = list(workdata$DayWeek), FUN = median, drop = TRUE)
+results$HoursMedian <- temp[, c("Hours")]
+
+knitr::kable(head(results, 7))
+```
+
+## Analysis: Explanation of Part 1
+
+- Mondays are a bit of a mixed bag in terms of work, around 4.3 hours
+  - The third most productive day!
+  - Has a standard deviation of *4.2 hours*!
+    - Means I either work **extremely hard** on Mondays or **get no work done on that day** (I usually *do* work).
+- Fridays: I barely get any work done
+  - The beginning of the weekend
+- On the other hand, Sundays are (usually) my most productive days
+
+## Analysis: Part 2
+- Let's visualize these results in bar charts:
+
+## Analysis: Part 2 {.flexbox .vcenter .smaller}
+```{r echo=TRUE, display=TRUE}
+barplot(results$HoursMean, names.arg = results$DayWeek, xlab = 'Day of Week', ylab = 'Hours Worked',
+        main = 'Average Productivity by Day', col = rep('lightblue', 7), cex.names = 0.91)
+```
+
+## Analysis: Part 2 {.flexbox .vcenter .smaller}
+```{r echo=TRUE, display=TRUE}
+barplot(results$HoursSD, names.arg = results$DayWeek, xlab = 'Day of Week',
+        ylab = 'Deviation from Mean (hours)', main = 'Variation in Productivity by Day',
+        col = rep('lightgreen', 7), cex.names = 0.91)
+```
+
+## Analysis: Part 2 {.flexbox .vcenter .smaller}
+```{r echo=TRUE, display=TRUE}
+barplot(results$HoursMedian, names.arg = results$DayWeek, xlab = 'Day of Week',
+        ylab = 'Hours Worked', main = 'Median Productivity by Day', 
+        col = rep('purple', 7), cex.names = 0.91)
+```
+
+# Conclusion
+## {}
+- I can conclude that my most productive day is Sundays
+  - I am least productive on Fridays
+- Must account for variation from the daily average productivity
+  - Makes my most productive day Thursdays
+    - Due to its low $\sigma$
+    - Relatively high value when $\mu - \sigma$.
+
+
+##  {.flexbox .vcenter}
+<span style="font-size: 5rem;">Questions?</span>
+
+##  {.flexbox .vcenter}
+### Written analysis available at
+### https://applecrazy.github.io/statistics
